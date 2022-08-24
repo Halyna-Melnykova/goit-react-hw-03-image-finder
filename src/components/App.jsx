@@ -1,11 +1,27 @@
+import { Component } from 'react';
 import Searchbar from './Searchbar/Searchbar';
 import ImageGallery from './ImageGallery/ImageGallery';
 
-export const App = () => {
-  return (
-    <div>
-      <Searchbar />
-      <ImageGallery />
-    </div>
-  );
-};
+class App extends Component {
+  state = {
+    search: '',
+  };
+  onSearch = ({ search }) => {
+    this.setState({
+      search,
+    });
+    console.log(search);
+  };
+
+  render() {
+    const { onSearch } = this;
+    return (
+      <>
+        <Searchbar onSubmit={onSearch} />
+        <ImageGallery search={this.state.search} />
+      </>
+    );
+  }
+}
+
+export default App;

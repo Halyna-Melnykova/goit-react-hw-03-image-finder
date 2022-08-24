@@ -5,14 +5,14 @@ const instance = axios.create({
   params: {
     key: '28726852-6b30a90b988376f127c6dadc1',
     per_page: 12,
-    q: 'cat',
   },
 });
 
-export const getPhotos = async (page = 1) => {
+export const searchPhotos = async (q, page = 1) => {
   const { data } = await instance.get('/', {
     params: {
       page,
+      q,
     },
   });
   return data;

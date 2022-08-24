@@ -1,37 +1,39 @@
 import { Component } from 'react';
-import { getPhotos } from '../../api/gallary';
+import { searchPhotos } from '../../api/gallary';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
+import Button from 'components/Button/Button';
 
-import s from './ImageGallery.modyule.css';
+import s from './ImageGallery.module.css';
 
 class ImageGallery extends Component {
   state = {
     items: [],
     loading: false,
     error: null,
+    search: '',
     page: 1,
   };
 
-  componentDidMount() {
-    this.fetchPosts();
-  }
+  // componentDidMount() {
+  //   this.fetchPhotos();
+  // }
 
   componentDidUpdate(_, prevState) {
-    const { page } = this.state;
+    const { search, page } = this.state;
 
-    if (prevState.page !== page) {
-      this.fetchPosts();
+    if ((search && prevState.search !== search) || page > prevState.page) {
+      this.fetchPhotos();
     }
   }
 
-  async fetchPosts() {
-    const { page } = this.state;
+  async fetchPhotos() {
+    const { search, page } = this.state;
     this.setState({
       loading: true,
     });
 
     try {
-      const data = await getPhotos(page);
+      const data = await searchPhotos(search, page);
       console.log(data.hits);
       this.setState(({ items }) => ({
         items: [...items, ...data.hits],
@@ -54,8 +56,6 @@ class ImageGallery extends Component {
     const { items, loading, error } = this.state;
     const { loadMore } = this;
 
-    // const elements = items.map(({ id, title }) => <li key={id}>{title}</li>);
-
     const isPosts = Boolean(items.length);
 
     return (
@@ -67,7 +67,8 @@ class ImageGallery extends Component {
         </ul>
         {loading && <p>....Loading posts</p>}
         {error && <p>Не удалось загрузить посты</p>}
-        {isPosts && <button onClick={loadMore}>load more</button>}
+        {/* {isPosts && <button onClick={loadMore}>load more</button>} */}
+        {isPosts && <Button onClick={loadMore} text="Load more" />}
       </>
     );
   }
