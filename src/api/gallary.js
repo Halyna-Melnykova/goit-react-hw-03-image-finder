@@ -17,13 +17,3 @@ export const searchPhotos = async (q, page = 1) => {
   });
   return data;
 };
-
-// export const searchPosts = async (q, _page = 1) => {
-//   const { data } = await instance.get('/', {
-//     params: {
-//       _page,
-//       q,
-//     },
-//   });
-//   return data;
-// };
