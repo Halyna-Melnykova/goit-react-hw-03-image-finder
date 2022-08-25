@@ -62,11 +62,12 @@ class ImageGallery extends Component {
     }));
   };
 
-  openModal = largeImageURL => {
+  openModal = image => {
     this.setState({
       modalOpen: true,
-      image: largeImageURL,
+      image,
     });
+    console.log(this.state.image);
   };
 
   closeModal = () => {
@@ -76,10 +77,11 @@ class ImageGallery extends Component {
     });
   };
   render() {
-    const { items, loading, error, modalOpen, modalContent } = this.state;
+    const { items, loading, error, modalOpen, image } = this.state;
     const { loadMore, openModal, closeModal } = this;
+    console.log(image);
 
-    const isPosts = Boolean(items.length);
+    const isPhotos = Boolean(items.length);
 
     return (
       <>
@@ -88,15 +90,15 @@ class ImageGallery extends Component {
             <ImageGalleryItem
               key={id}
               smallImage={webformatURL}
-              // largeImage={largeImageURL}
-              onClick={() => openModal({ largeImageURL })}
+              largeImage={largeImageURL}
+              onClick={openModal}
             />
           ))}
         </ul>
         {loading && <Loader />}
         {error && <p>Erorr</p>}
-        {isPosts && <Button onClick={loadMore} text="Load more" />}
-        {modalOpen && <Modal close={closeModal}>{modalContent.image}</Modal>}
+        {isPhotos && <Button onClick={loadMore} text="Load more" />}
+        {modalOpen && <Modal close={closeModal}>{image}</Modal>}
       </>
     );
   }
@@ -104,4 +106,6 @@ class ImageGallery extends Component {
 
 export default ImageGallery;
 
-// onClick={() => onClick({title, body})}
+ImageGallery.defaultProps = {
+  items: [],
+};
