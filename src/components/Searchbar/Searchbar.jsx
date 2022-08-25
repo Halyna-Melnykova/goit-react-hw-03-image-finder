@@ -19,20 +19,17 @@ class Searchbar extends Component {
   handleChange = event => {
     const { name, value } = event.currentTarget;
     this.setState({ [name]: value.toLowerCase() });
-    // console.log(this.state);
   };
 
   handleSubmit = e => {
     e.preventDefault();
 
     if (this.state.search.trim() === '') {
-      alert(`enter name of photo`);
+      alert(`enter word for search`);
       return;
     }
-    // toast??
     const { onSubmit } = this.props;
     onSubmit({ ...this.state });
-    // console.log(this.state);
     this.reset();
   };
 
@@ -66,11 +63,3 @@ class Searchbar extends Component {
 }
 
 export default Searchbar;
-
-// handleSubmit = e => {
-//   e.preventDefault();
-//   const form = e.currentTarget;
-//   const searchQuery = form.elements.search.value.trim().toLowerCase();
-//   if (searchQuery === '') {
-//     return toast.error('Please enter the name of photo');
-//   }

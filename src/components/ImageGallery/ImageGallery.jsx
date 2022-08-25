@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { searchPhotos } from '../../api/gallary';
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import Button from 'components/Button/Button';
@@ -43,7 +44,7 @@ class ImageGallery extends Component {
 
     try {
       const data = await searchPhotos(searchQuery, page);
-      console.log(data.hits);
+
       this.setState(({ items }) => ({
         items: [...items, ...data.hits],
       }));
@@ -67,7 +68,6 @@ class ImageGallery extends Component {
       modalOpen: true,
       image,
     });
-    console.log(this.state.image);
   };
 
   closeModal = () => {
@@ -79,7 +79,6 @@ class ImageGallery extends Component {
   render() {
     const { items, loading, error, modalOpen, image } = this.state;
     const { loadMore, openModal, closeModal } = this;
-    console.log(image);
 
     const isPhotos = Boolean(items.length);
 
@@ -108,4 +107,8 @@ export default ImageGallery;
 
 ImageGallery.defaultProps = {
   items: [],
+};
+
+ImageGallery.propTypes = {
+  searchQuery: PropTypes.string.isRequired,
 };

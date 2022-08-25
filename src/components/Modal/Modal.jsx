@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 
 import s from './Modal.module.css';
 
@@ -27,7 +28,7 @@ class Modal extends Component {
     return createPortal(
       <div className={s.overlay} onClick={closeModal}>
         <div className={s.modal}>
-          <img src={children.largeImage} alt="" />
+          <img src={children.largeImage} alt="img" />
         </div>
       </div>,
       modalRoot
@@ -36,3 +37,8 @@ class Modal extends Component {
 }
 
 export default Modal;
+
+Modal.propTypes = {
+  children: PropTypes.element.isRequired,
+  closeModal: PropTypes.func,
+};
