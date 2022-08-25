@@ -13,7 +13,7 @@ class ImageGallery extends Component {
     items: [],
     loading: false,
     error: null,
-    page: 1,
+    // page: 1,
     modalOpen: false,
     image: '',
   };
@@ -23,21 +23,20 @@ class ImageGallery extends Component {
   // }
 
   componentDidUpdate(prevProps, prevState) {
-    const { page } = this.state;
-    const { searchQuery } = this.props;
+    // const { page } = this.state;
+    const { searchQuery, page } = this.props;
 
     if (searchQuery && prevProps.searchQuery !== searchQuery) {
       this.fetchPhotos();
     }
 
-    if (page > prevState.page) {
+    if (page > prevProps.page) {
       this.fetchMorePhotos();
     }
   }
 
   async fetchPhotos() {
-    const { page } = this.state;
-    const { searchQuery } = this.props;
+    const { searchQuery, page } = this.props;
 
     this.setState({
       loading: true,
@@ -45,6 +44,7 @@ class ImageGallery extends Component {
 
     try {
       const data = await searchPhotos(searchQuery, page);
+      console.log(page);
 
       this.setState({
         items: [...data.hits],
@@ -59,8 +59,7 @@ class ImageGallery extends Component {
   }
 
   async fetchMorePhotos() {
-    const { page } = this.state;
-    const { searchQuery } = this.props;
+    const { searchQuery, page } = this.props;
 
     this.setState({
       loading: true,
@@ -81,12 +80,6 @@ class ImageGallery extends Component {
     }
   }
 
-  loadMore = () => {
-    this.setState(({ page }) => ({
-      page: page + 1,
-    }));
-  };
-
   openModal = image => {
     this.setState({
       modalOpen: true,
@@ -102,7 +95,8 @@ class ImageGallery extends Component {
   };
   render() {
     const { items, loading, error, modalOpen, image } = this.state;
-    const { loadMore, openModal, closeModal } = this;
+    const { openModal, closeModal } = this;
+    const { loadMore } = this.props;
 
     const isPhotos = Boolean(items.length);
 
