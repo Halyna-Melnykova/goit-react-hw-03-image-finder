@@ -26,15 +26,39 @@ class ImageGallery extends Component {
     const { page } = this.state;
     const { searchQuery } = this.props;
 
-    if (
-      (searchQuery && prevProps.searchQuery !== searchQuery) ||
-      page > prevState.page
-    ) {
+    if (searchQuery && prevProps.searchQuery !== searchQuery) {
       this.fetchPhotos();
+    }
+
+    if (page > prevState.page) {
+      this.fetchMorePhotos();
     }
   }
 
   async fetchPhotos() {
+    const { page } = this.state;
+    const { searchQuery } = this.props;
+
+    this.setState({
+      loading: true,
+    });
+
+    try {
+      const data = await searchPhotos(searchQuery, page);
+
+      this.setState({
+        items: [...data.hits],
+      });
+    } catch (error) {
+      this.setState({
+        error,
+      });
+    } finally {
+      this.setState({ loading: false });
+    }
+  }
+
+  async fetchMorePhotos() {
     const { page } = this.state;
     const { searchQuery } = this.props;
 
