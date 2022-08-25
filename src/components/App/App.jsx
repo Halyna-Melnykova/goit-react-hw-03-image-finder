@@ -23,16 +23,12 @@ class App extends Component {
   };
 
   render() {
-    const { onSearch } = this;
+    const { onSearch, loadMore } = this;
+    const { search, page } = this.state;
     return (
       <div className={s.app}>
         <Searchbar onSubmit={onSearch} />
-        <ImageGallery
-          searchQuery={this.state.search}
-          page={this.state.page}
-          loadMore={this.loadMore}
-          resetPage={this.resetPage}
-        />
+        <ImageGallery searchQuery={search} page={page} loadMore={loadMore} />
       </div>
     );
   }
